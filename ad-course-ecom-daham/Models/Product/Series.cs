@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ad_course_ecom_daham.Models.Product
 {
@@ -6,6 +7,11 @@ namespace ad_course_ecom_daham.Models.Product
     {
         [Key]
         public Guid seriesId { get; set; }
-        public int seriesName { get; set; }
+        [ForeignKey("category")]
+        public Guid cateId { get; set; }
+        public Category category { get; set; }
+        [NotMapped]
+        public string categoryName { get; set; }
+        public string seriesName { get; set; }
     }
 }

@@ -113,19 +113,6 @@ namespace ad_course_ecom_daham.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "series",
-                columns: table => new
-                {
-                    seriesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    seriesName = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_series", x => x.seriesId);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -248,6 +235,27 @@ namespace ad_course_ecom_daham.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "series",
+                columns: table => new
+                {
+                    seriesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    cateId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    seriesName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_series", x => x.seriesId);
+                    table.ForeignKey(
+                        name: "FK_series_categories_cateId",
+                        column: x => x.cateId,
+                        principalTable: "categories",
+                        principalColumn: "cateId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -446,6 +454,11 @@ namespace ad_course_ecom_daham.Migrations
                 name: "IX_orders_cId",
                 table: "orders",
                 column: "cId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_series_cateId",
+                table: "series",
+                column: "cateId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -490,10 +503,10 @@ namespace ad_course_ecom_daham.Migrations
                 name: "Customer");
 
             migrationBuilder.DropTable(
-                name: "categories");
+                name: "series");
 
             migrationBuilder.DropTable(
-                name: "series");
+                name: "categories");
         }
     }
 }

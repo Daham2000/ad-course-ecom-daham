@@ -218,10 +218,16 @@ namespace ad_course_ecom_daham.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("seriesName")
-                        .HasColumnType("int");
+                    b.Property<Guid>("cateId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("seriesName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("seriesId");
+
+                    b.HasIndex("cateId");
 
                     b.ToTable("series");
                 });
@@ -491,6 +497,17 @@ namespace ad_course_ecom_daham.Migrations
                         .IsRequired();
 
                     b.Navigation("comVariation");
+                });
+
+            modelBuilder.Entity("ad_course_ecom_daham.Models.Product.Series", b =>
+                {
+                    b.HasOne("ad_course_ecom_daham.Models.Product.Category", "category")
+                        .WithMany()
+                        .HasForeignKey("cateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -5,7 +5,9 @@
     <a asp-controller="AdminDashboard" asp-action="OpenManageCategories">
         <button type="button" class="btn btn-primary m-2">Manage Categories</button>
     </a>
-    <button type="button" class="btn btn-primary m-2" asp-controller="AdminDashboard" asp-action="OpenManageCategories">Manage Computer Series</button>
+    <a asp-controller="AdminDashboard" asp-action="OpenManageSeries">
+        <button type="button" class="btn btn-primary m-2">Manage Computer Series</button>
+    </a>
     <button type="button" class="btn btn-success m-2" asp-controller="AdminDashboard" asp-action="OpenManageCategories">Add a computer</button>
 </div>
 @if (@ViewBag.isManageCategories == true)
@@ -29,6 +31,44 @@
                 <input type="text" class="form-control" name="categoryName" id="categoryName" aria-describedby="emailHelp" placeholder="Enter category name">
             </div>
             <button type="submit" class="btn btn-primary mt-3">Add</button>
+        </form>
+    </div>
+}
+
+
+@if (@ViewBag.isManageSeries == true)
+{
+    <h4>Computer Series List</h4>
+    @foreach (var item in @ViewBag.series)
+    {
+        <div class="text-sm-lef mb-1 mt-1">
+            Series name: @item.seriesName
+        </div>
+        <div class="text-sm-lef mb-1 mt-1">
+            Category Id: @item.cateId
+        </div>
+        <div class="text-sm-lef mb-1 mt-1">
+            Category Name: @item.categoryName
+        </div>
+        <div class="dropdown-divider w-50 mb-1"></div>
+    }
+    <div class="mt-5 w-25">
+        <h4>Add a new series</h4>
+        <form method="post" asp-controller="AdminDashboard" asp-action="AddSeries">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Series Name</label>
+                <input type="text" class="form-control" name="seriesName" id="seriesName" aria-describedby="emailHelp" placeholder="Enter series name">
+            </div>
+            <div class="mb-1">
+                <label>Select category type</label>
+                <select name="categoryName" class="form-control form-control-sm">
+                    @foreach (var type in @ViewBag.categories)
+                    {
+                        <option>@type.cateName</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-1">Add</button>
         </form>
     </div>
 }
