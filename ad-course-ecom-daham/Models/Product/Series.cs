@@ -5,7 +5,7 @@ namespace ad_course_ecom_daham.Models.Product
     public class Series
     {
         [Key]
-        public int seriesId { get; set; }
+        public Guid seriesId { get; set; }
         public int seriesName { get; set; }
     }
 }

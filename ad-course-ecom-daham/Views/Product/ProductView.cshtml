@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Manage Computers";
+}
+<div class="d-flex flex-row p-2 mb-3">
+    <a asp-controller="AdminDashboard" asp-action="OpenManageCategories">
+        <button type="button" class="btn btn-primary m-2">Manage Categories</button>
+    </a>
+    <button type="button" class="btn btn-primary m-2" asp-controller="AdminDashboard" asp-action="OpenManageCategories">Manage Computer Series</button>
+    <button type="button" class="btn btn-success m-2" asp-controller="AdminDashboard" asp-action="OpenManageCategories">Add a computer</button>
+</div>
+@if (@ViewBag.isManageCategories == true)
+{
+    <h4>Categories List</h4>
+    @foreach (var item in @ViewBag.categories)
+    {
+        <div class="text-sm-lef mb-1 mt-1">
+            Category name: @item.cateName
+        </div>  
+        <div class="text-sm-lef mb-1 mt-1">
+            Category id: @item.cateId
+        </div>
+        <div class="dropdown-divider w-50"></div>
+    }
+    <div class="mt-5 w-25">
+        <h4>Add a new category</h4>
+        <form method="post" asp-controller="AdminDashboard" asp-action="AddCategory">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Category Name</label>
+                <input type="text" class="form-control" name="categoryName" id="categoryName" aria-describedby="emailHelp" placeholder="Enter category name">
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Add</button>
+        </form>
+    </div>
+}

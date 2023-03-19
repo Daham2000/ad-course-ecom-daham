@@ -6,10 +6,10 @@ namespace ad_course_ecom_daham.Models.Product
     public class ComVariation
     {
         [Key]
-        public int comvId { get; set; }
+        public Guid comvId { get; set; }
         public string comvName { get; set; }
         [ForeignKey("computer")]
-        public int comId { get; set; }
+        public Guid comId { get; set; }
         public Computer computer { get; set; }
     }
 }

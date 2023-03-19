@@ -7,10 +7,12 @@ namespace ad_course_ecom_daham.Models
     public class OrderItem
     {
         [Key]
-        public int orId { get; set; }
-        public int oId { get; set; }
+        public Guid orId { get; set; }
+        [ForeignKey("order")]
+        public Guid oId { get; set; }
+        public Order order { get; set; }
         [ForeignKey("computer")]
-        public int comId { get; set; }
+        public Guid comId { get; set; }
         public Computer computer { get; set; }
         public int qty { get; set; }
 
