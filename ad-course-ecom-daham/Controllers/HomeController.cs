@@ -20,7 +20,7 @@ namespace ad_course_ecom_daham.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            return View("../Product/ProductView");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

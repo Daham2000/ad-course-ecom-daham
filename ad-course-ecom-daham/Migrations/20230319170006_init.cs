@@ -71,8 +71,7 @@ namespace ad_course_ecom_daham.Migrations
                 name: "categories",
                 columns: table => new
                 {
-                    cateId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    cateId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     cateName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -86,8 +85,7 @@ namespace ad_course_ecom_daham.Migrations
                 name: "Customer",
                 columns: table => new
                 {
-                    cId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    cId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     cName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     cBillingAddress = table.Column<string>(type: "longtext", nullable: false)
@@ -111,20 +109,6 @@ namespace ad_course_ecom_daham.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customer", x => x.cId);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "series",
-                columns: table => new
-                {
-                    seriesId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    seriesName = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_series", x => x.seriesId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -256,12 +240,32 @@ namespace ad_course_ecom_daham.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "series",
+                columns: table => new
+                {
+                    seriesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    cateId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    seriesName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_series", x => x.seriesId);
+                    table.ForeignKey(
+                        name: "FK_series_categories_cateId",
+                        column: x => x.cateId,
+                        principalTable: "categories",
+                        principalColumn: "cateId",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "orders",
                 columns: table => new
                 {
-                    oId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    cId = table.Column<int>(type: "int", nullable: false),
+                    oId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    cId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     totalPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -283,10 +287,9 @@ namespace ad_course_ecom_daham.Migrations
                 name: "computers",
                 columns: table => new
                 {
-                    comId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    cateId = table.Column<int>(type: "int", nullable: false),
-                    seriesId = table.Column<int>(type: "int", nullable: false),
+                    comId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    cateId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    seriesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     cName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     normalPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
@@ -313,11 +316,10 @@ namespace ad_course_ecom_daham.Migrations
                 name: "comVariations",
                 columns: table => new
                 {
-                    comvId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    comvId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     comvName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    comId = table.Column<int>(type: "int", nullable: false)
+                    comId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -335,10 +337,9 @@ namespace ad_course_ecom_daham.Migrations
                 name: "orderItems",
                 columns: table => new
                 {
-                    orId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    oId = table.Column<int>(type: "int", nullable: false),
-                    comId = table.Column<int>(type: "int", nullable: false),
+                    orId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    oId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    comId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     qty = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -350,6 +351,12 @@ namespace ad_course_ecom_daham.Migrations
                         principalTable: "computers",
                         principalColumn: "comId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_orderItems_orders_oId",
+                        column: x => x.oId,
+                        principalTable: "orders",
+                        principalColumn: "oId",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -357,11 +364,10 @@ namespace ad_course_ecom_daham.Migrations
                 name: "comVariationOptions",
                 columns: table => new
                 {
-                    comvopId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    comvopId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     comvopName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    comvId = table.Column<int>(type: "int", nullable: false),
+                    comvId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     quantity = table.Column<int>(type: "int", nullable: false)
                 },
@@ -440,9 +446,19 @@ namespace ad_course_ecom_daham.Migrations
                 column: "comId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_orderItems_oId",
+                table: "orderItems",
+                column: "oId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_orders_cId",
                 table: "orders",
                 column: "cId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_series_cateId",
+                table: "series",
+                column: "cateId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -469,9 +485,6 @@ namespace ad_course_ecom_daham.Migrations
                 name: "orderItems");
 
             migrationBuilder.DropTable(
-                name: "orders");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -481,16 +494,19 @@ namespace ad_course_ecom_daham.Migrations
                 name: "comVariations");
 
             migrationBuilder.DropTable(
-                name: "Customer");
+                name: "orders");
 
             migrationBuilder.DropTable(
                 name: "computers");
 
             migrationBuilder.DropTable(
-                name: "categories");
+                name: "Customer");
 
             migrationBuilder.DropTable(
                 name: "series");
+
+            migrationBuilder.DropTable(
+                name: "categories");
         }
     }
 }

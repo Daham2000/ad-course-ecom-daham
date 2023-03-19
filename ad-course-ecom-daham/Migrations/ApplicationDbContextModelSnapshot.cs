@@ -21,9 +21,9 @@ namespace ad_course_ecom_daham.Migrations
 
             modelBuilder.Entity("ad_course_ecom_daham.Models.CustomerModels.Customer", b =>
                 {
-                    b.Property<int>("cId")
+                    b.Property<Guid>("cId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("cBillingAddress")
                         .IsRequired()
@@ -75,12 +75,12 @@ namespace ad_course_ecom_daham.Migrations
 
             modelBuilder.Entity("ad_course_ecom_daham.Models.Order", b =>
                 {
-                    b.Property<int>("oId")
+                    b.Property<Guid>("oId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
-                    b.Property<int>("cId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("cId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("status")
                         .IsRequired()
@@ -101,15 +101,15 @@ namespace ad_course_ecom_daham.Migrations
 
             modelBuilder.Entity("ad_course_ecom_daham.Models.OrderItem", b =>
                 {
-                    b.Property<int>("orId")
+                    b.Property<Guid>("orId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
-                    b.Property<int>("comId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("comId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<int>("oId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("oId")
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("qty")
                         .HasColumnType("int");
@@ -118,14 +118,16 @@ namespace ad_course_ecom_daham.Migrations
 
                     b.HasIndex("comId");
 
+                    b.HasIndex("oId");
+
                     b.ToTable("orderItems");
                 });
 
             modelBuilder.Entity("ad_course_ecom_daham.Models.Product.Category", b =>
                 {
-                    b.Property<int>("cateId")
+                    b.Property<Guid>("cateId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("cateName")
                         .IsRequired()
@@ -138,22 +140,22 @@ namespace ad_course_ecom_daham.Migrations
 
             modelBuilder.Entity("ad_course_ecom_daham.Models.Product.Computer", b =>
                 {
-                    b.Property<int>("comId")
+                    b.Property<Guid>("comId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("cName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("cateId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("cateId")
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("normalPrice")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int>("seriesId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("seriesId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("comId");
 
@@ -166,12 +168,12 @@ namespace ad_course_ecom_daham.Migrations
 
             modelBuilder.Entity("ad_course_ecom_daham.Models.Product.ComVariation", b =>
                 {
-                    b.Property<int>("comvId")
+                    b.Property<Guid>("comvId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
-                    b.Property<int>("comId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("comId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("comvName")
                         .IsRequired()
@@ -186,12 +188,12 @@ namespace ad_course_ecom_daham.Migrations
 
             modelBuilder.Entity("ad_course_ecom_daham.Models.Product.ComVariationOption", b =>
                 {
-                    b.Property<int>("comvopId")
+                    b.Property<Guid>("comvopId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
-                    b.Property<int>("comvId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("comvId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("comvopName")
                         .IsRequired()
@@ -212,14 +214,20 @@ namespace ad_course_ecom_daham.Migrations
 
             modelBuilder.Entity("ad_course_ecom_daham.Models.Product.Series", b =>
                 {
-                    b.Property<int>("seriesId")
+                    b.Property<Guid>("seriesId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
-                    b.Property<int>("seriesName")
-                        .HasColumnType("int");
+                    b.Property<Guid>("cateId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("seriesName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("seriesId");
+
+                    b.HasIndex("cateId");
 
                     b.ToTable("series");
                 });
@@ -439,7 +447,15 @@ namespace ad_course_ecom_daham.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ad_course_ecom_daham.Models.Order", "order")
+                        .WithMany()
+                        .HasForeignKey("oId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("computer");
+
+                    b.Navigation("order");
                 });
 
             modelBuilder.Entity("ad_course_ecom_daham.Models.Product.Computer", b =>
@@ -481,6 +497,17 @@ namespace ad_course_ecom_daham.Migrations
                         .IsRequired();
 
                     b.Navigation("comVariation");
+                });
+
+            modelBuilder.Entity("ad_course_ecom_daham.Models.Product.Series", b =>
+                {
+                    b.HasOne("ad_course_ecom_daham.Models.Product.Category", "category")
+                        .WithMany()
+                        .HasForeignKey("cateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

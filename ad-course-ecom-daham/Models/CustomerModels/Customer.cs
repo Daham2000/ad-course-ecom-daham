@@ -6,7 +6,7 @@ namespace ad_course_ecom_daham.Models.CustomerModels
     public class Customer
     {
         [Key]
-        public int cId { get; set; }
+        public Guid cId { get; set; }
         public string cName { get; set; }
         public string cBillingAddress { get; set; }
         public string cShippingAddress { get; set; }
