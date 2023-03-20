@@ -15,5 +15,10 @@ namespace ad_course_ecom_daham.Models.Product
         public Series series { get; set; } 
         public string cName { get; set; }
         public decimal normalPrice { get; set; }
+        public int qty { get; set; }
+        [NotMapped]
+        public string cateName { get; set; }
+        [NotMapped]
+        public string seriesName { get; set; }
     }
 }

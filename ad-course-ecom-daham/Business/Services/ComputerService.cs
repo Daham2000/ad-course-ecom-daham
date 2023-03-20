@@ -1,0 +1,41 @@
+﻿using ad_course_ecom_daham.Business.Interfaces;
+using ad_course_ecom_daham.Data;
+using ad_course_ecom_daham.Models.Product;
+
+namespace ad_course_ecom_daham.Business.Services
+{
+    public class ComputerService : IComputerService
+    {
+        ApplicationDbContext _context;
+        public ComputerService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        void IComputerService.AddComputer(Computer model)
+        {
+            _context.Add(model);
+            _context.SaveChanges();
+        }
+
+        void IComputerService.DeleteComputer(Guid? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IComputerService.EditComputer(Computer model)
+        {
+            throw new NotImplementedException();
+        }
+
+        Computer IComputerService.GetComputerById(Guid? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Computer> IComputerService.GetComputers()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
