@@ -6,6 +6,7 @@ namespace ad_course_ecom_daham.Business.Interfaces
     {
         void AddVariation(ComVariation model);
         List<ComVariation> GetVariations();
+        List<ComVariation> GetVariationsByComId(Guid? comId);
         ComVariation GetVariationById(Guid? id);
         void EditVariation(ComVariation model);
         void DeleteVariation(Guid? id);

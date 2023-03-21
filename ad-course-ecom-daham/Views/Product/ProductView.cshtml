@@ -83,7 +83,14 @@
         <form method="post" asp-controller="AdminDashboard" asp-action="AddComputer">
             <div class="form-group">
                 <label for="exampleInputEmail1">Computer Name</label>
-                <input type="text" class="form-control" name="cName" id="cName" asp-for="cName" aria-describedby="emailHelp" placeholder="Enter computer name">
+                @if (@ViewBag.isVariationMode == false)
+                {
+                    <input type="text" class="form-control" name="cName" id="cName" asp-for="cName" aria-describedby="emailHelp" placeholder="Enter computer name">
+                }
+                @if (@ViewBag.isVariationMode == true)
+                {
+                    <input type="text" class="form-control" name="cName" id="cName" asp-for="cName" value="@ViewBag.computer.cName" aria-describedby="emailHelp" placeholder="Enter computer name">
+                }
             </div>
             <div class="mb-1">
                 <label>Select category type</label>
@@ -129,7 +136,7 @@
                 }
             </div>
             <input type="text" class="form-control" name="variationName" id="variationName" aria-describedby="emailHelp" placeholder="Enter Variation">
-            <button type="submit" class="btn btn-success">Add a variation</button>
+            <button type="submit" class="btn btn-success mt-2 mb-2">Add a variation</button>
         </form>
     </div>
 }

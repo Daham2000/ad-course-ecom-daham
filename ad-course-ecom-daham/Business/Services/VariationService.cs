@@ -38,5 +38,10 @@ namespace ad_course_ecom_daham.Business.Services
         {
             return _context.comVariations.ToList();
         }
+
+        List<ComVariation> IVariationService.GetVariationsByComId(Guid? comId)
+        {
+            return _context.comVariations.Where((v) => v.comId == comId).ToList();
+        }
     }
 }

@@ -102,6 +102,7 @@ namespace ad_course_ecom_daham.Controllers
             ViewBag.isAddComputer = true;
             ViewBag.computerStatus = "";
             ViewBag.variationList = _variationList;
+            ViewBag.isVariationMode = false;
             return View("../Product/ProductView");
         }
 
@@ -127,6 +128,7 @@ namespace ad_course_ecom_daham.Controllers
             ViewBag.variationList = _variationList;
             ViewBag.isManageCategories = false;
             ViewBag.isAddComputer = true;
+            ViewBag.isVariationMode = false;
             return View("../Product/ProductView");
         }
 
@@ -140,13 +142,16 @@ namespace ad_course_ecom_daham.Controllers
             Guid comId = new Guid(HttpContext.Session.GetString("comId"));
             comVariation.comId = comId;
             _variationService.AddVariation(comVariation);
-            _variationList = _variationService.GetVariations();
+            _variationList = _variationService.GetVariationsByComId(comId);
+            Computer computer = _computerService.GetComputerById(comId);
             ViewBag.series = _seriesList;
             ViewBag.categories = _categories;
+            ViewBag.computer = computer;
 
             ViewBag.isManageSeries = false;
             ViewBag.isManageCategories = false;
             ViewBag.isAddComputer = true;
+            ViewBag.isVariationMode = true;
             ViewBag.variationList = _variationList;
             return View("../Product/ProductView");
         }

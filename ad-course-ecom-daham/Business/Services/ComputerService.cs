@@ -30,7 +30,7 @@ namespace ad_course_ecom_daham.Business.Services
 
         Computer IComputerService.GetComputerById(Guid? id)
         {
-            throw new NotImplementedException();
+            return _context.computers.Where((c) => c.comId == id).FirstOrDefault();
         }
 
         List<Computer> IComputerService.GetComputers()
