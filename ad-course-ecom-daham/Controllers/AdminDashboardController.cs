@@ -13,6 +13,7 @@ namespace ad_course_ecom_daham.Controllers
         private readonly IVariationService _variationService;
         List<Series> _seriesList;
         List<Category> _categories;
+        List<Computer> _computerList;
         List<ComVariation> _variationList = new List<ComVariation>();
         public AdminDashboardController(IVariationService variationService, ICategoryService categoryService, ISeriesService seriesService, IComputerService computerService) {
             _categoryService = categoryService;
@@ -28,8 +29,20 @@ namespace ad_course_ecom_daham.Controllers
 
         public IActionResult ProductMainView()
         {
+            _computerList = _computerService.GetComputers();
+            _seriesList = _seriesService.GetSeries();
+            _categories = _categoryService.GetCategories();
+            for(int i=0; i< _computerList.Count; i++)
+            {
+                _computerList[i].seriesName = _seriesList.Where((s) => s.seriesId == _computerList[i].seriesId).FirstOrDefault().seriesName;
+                _computerList[i].cateName = _categories.Where((s) => s.cateId == _computerList[i].cateId).FirstOrDefault().cateName;
+                _computerList[i].normalPrice = decimal.Round(_computerList[i].normalPrice, 2, MidpointRounding.AwayFromZero);
+            }
+
             ViewBag.isManageCategories = false;
+            ViewBag.computerList = _computerList;
             ViewBag.isManageSeries = false;
+            ViewBag.viewProduct = true;
             return View("../Product/ProductView");
         }
 
@@ -38,6 +51,7 @@ namespace ad_course_ecom_daham.Controllers
             _categories = _categoryService.GetCategories();
             ViewBag.categories = _categories;
             ViewBag.isManageCategories = true;
+            ViewBag.viewProduct = false;
             ViewBag.isManageSeries = false;
             return View("../Product/ProductView");
         }
@@ -50,6 +64,7 @@ namespace ad_course_ecom_daham.Controllers
             _categories = _categoryService.GetCategories();
             ViewBag.categories = _categories;
             ViewBag.isManageCategories = true;
+            ViewBag.viewProduct = false;
             ViewBag.isManageSeries = false;
             return View("../Product/ProductView");
         }
@@ -66,6 +81,7 @@ namespace ad_course_ecom_daham.Controllers
             ViewBag.series = series;
             ViewBag.categories = _categories;
             ViewBag.isManageSeries = true;
+            ViewBag.viewProduct = false;
             ViewBag.isManageCategories = false;
             return View("../Product/ProductView");
         }
@@ -89,6 +105,7 @@ namespace ad_course_ecom_daham.Controllers
             ViewBag.categories = _categories;
             ViewBag.isManageSeries = true;
             ViewBag.isManageCategories = false;
+            ViewBag.viewProduct = false;
             return View("../Product/ProductView");
         }
 
@@ -100,6 +117,7 @@ namespace ad_course_ecom_daham.Controllers
             ViewBag.isManageSeries = false;
             ViewBag.isManageCategories = false;
             ViewBag.isAddComputer = true;
+            ViewBag.viewProduct = false;
             ViewBag.computerStatus = "";
             ViewBag.variationList = _variationList;
             ViewBag.isVariationMode = false;
@@ -128,6 +146,7 @@ namespace ad_course_ecom_daham.Controllers
             ViewBag.variationList = _variationList;
             ViewBag.isManageCategories = false;
             ViewBag.isAddComputer = true;
+            ViewBag.viewProduct = false;
             ViewBag.isVariationMode = false;
             return View("../Product/ProductView");
         }
@@ -143,11 +162,16 @@ namespace ad_course_ecom_daham.Controllers
             comVariation.comId = comId;
             _variationService.AddVariation(comVariation);
             _variationList = _variationService.GetVariationsByComId(comId);
+            for(int i=0; i< _variationList.Count; i++)
+            {
+                _variationList[i].variationOptions = new List<ComVariationOption>();
+            }
             Computer computer = _computerService.GetComputerById(comId);
             ViewBag.series = _seriesList;
             ViewBag.categories = _categories;
             ViewBag.computer = computer;
 
+            ViewBag.viewProduct = false;
             ViewBag.isManageSeries = false;
             ViewBag.isManageCategories = false;
             ViewBag.isAddComputer = true;

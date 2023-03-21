@@ -13,6 +13,7 @@
         <button type="button" class="btn btn-success m-2">Add a computer</button>
     </a>
 </div>
+
 @if (@ViewBag.isManageCategories == true)
 {
     <h4>Categories List</h4>
@@ -76,6 +77,7 @@
     </div>
 }
 
+
 @if (@ViewBag.isAddComputer == true)
 {
     <div class="mt-1 w-25">
@@ -112,25 +114,42 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Computer Genaral Price</label>
-                <input type="number" class="form-control" name="normalPrice" id="normalPrice" asp-for="normalPrice" aria-describedby="emailHelp" placeholder="Enter computer price">
+                @if (@ViewBag.isVariationMode == false)
+                {
+                    <input type="number" class="form-control" name="normalPrice" id="normalPrice" asp-for="normalPrice" aria-describedby="emailHelp" placeholder="Enter computer price">
+                }
+                @if (@ViewBag.isVariationMode == true)
+                {
+                    <input type="number" class="form-control" name="normalPrice" id="normalPrice" value="@ViewBag.computer.normalPrice" asp-for="normalPrice" aria-describedby="emailHelp" placeholder="Enter computer price">
+                }
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Computer Quantity</label>
+                @if (@ViewBag.isVariationMode == false)
+                {
                 <input type="number" class="form-control" name="qty" id="qty" asp-for="qty" aria-describedby="emailHelp" placeholder="Enter qty">
+                }
+                @if (@ViewBag.isVariationMode == true)
+                {
+                    <input type="number" class="form-control" name="qty" id="qty" asp-for="qty" value="@ViewBag.computer.qty" aria-describedby="emailHelp" placeholder="Enter qty">
+                }
             </div>
             <div class="dropdown-divider w-50 mb-1"></div>
-            <button type="submit" class="btn btn-primary mt-2">Add</button>
+            @if (@ViewBag.isVariationMode == false)
+            {
+                <button type="submit" class="btn btn-primary mt-2">Add</button>
+            }
             <h6 class="text-success mb-2 mt-1">@ViewBag.computerStatus</h6>
         </form>
 
         <form method="post" asp-controller="AdminDashboard" asp-action="AddVariation">
             <h2>@ViewBag.variation</h2>
-            <div class="mb-1 mt-1">
-                <h4>Variation List</h4>
+            <div class="mb-1 mt-2">
+                <h5>Variation List</h5>
                 @foreach (var item in @ViewBag.variationList)
                 {
                     <div class="text-sm-lef mb-1 mt-1">
-                        Variation name: @item.comvName
+                        Variation name: @item.comvName  
                         <div class="dropdown-divider w-50 mb-1"></div>
                     </div>
                 }
@@ -138,5 +157,32 @@
             <input type="text" class="form-control" name="variationName" id="variationName" aria-describedby="emailHelp" placeholder="Enter Variation">
             <button type="submit" class="btn btn-success mt-2 mb-2">Add a variation</button>
         </form>
+    </div>
+}
+
+
+@if (@ViewBag.viewProduct == true)
+{
+    <h5>Computers List</h5>
+    <p>All prices are in LKR (SriLankn Ruppes)</p>
+    <div class="container mt-3">
+        <div class="row">
+            @foreach (var item in @ViewBag.computerList)
+            {
+                <div class="col">
+                    <div class="card mb-3" style="width: 18rem;">
+                        <img class="card-img-top" src="https://cdn.ttgtmedia.com/rms/onlineimages/hp_elitebook_mobile.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.cName</h5>
+                            <p class="card-text">Computer Type: @item.cateName</p>
+                            <p class="card-text">Series: @item.seriesName</p>
+                            <p class="card-text">Starting Price (LKR): @item.normalPrice</p>
+                            <p class="card-text">Available Qty: @item.qty</p>
+                            <a href="#" class="btn btn-primary">Edit Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 }

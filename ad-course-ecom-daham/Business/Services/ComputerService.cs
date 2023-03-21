@@ -35,7 +35,7 @@ namespace ad_course_ecom_daham.Business.Services
 
         List<Computer> IComputerService.GetComputers()
         {
-            throw new NotImplementedException();
+            return _context.computers.ToList();
         }
     }
 }
