@@ -11,7 +11,7 @@ using ad_course_ecom_daham.Data;
 namespace ad_course_ecom_daham.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230319170006_init")]
+    [Migration("20230320134150_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,6 +155,9 @@ namespace ad_course_ecom_daham.Migrations
 
                     b.Property<decimal>("normalPrice")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("qty")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("seriesId")
                         .HasColumnType("char(36)");

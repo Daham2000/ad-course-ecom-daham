@@ -11,5 +11,7 @@ namespace ad_course_ecom_daham.Models.Product
         [ForeignKey("computer")]
         public Guid comId { get; set; }
         public Computer computer { get; set; }
+        [NotMapped]
+        public List<ComVariationOption> variationOptions { get; set; }
     }
 }

@@ -154,6 +154,9 @@ namespace ad_course_ecom_daham.Migrations
                     b.Property<decimal>("normalPrice")
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<int>("qty")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("seriesId")
                         .HasColumnType("char(36)");
 

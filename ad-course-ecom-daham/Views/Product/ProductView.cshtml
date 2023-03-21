@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ad_course_ecom_daham.Models.Product.Computer;
+@{
     ViewData["Title"] = "Manage Computers";
 }
 <div class="d-flex flex-row p-2 mb-3">
@@ -8,7 +9,9 @@
     <a asp-controller="AdminDashboard" asp-action="OpenManageSeries">
         <button type="button" class="btn btn-primary m-2">Manage Computer Series</button>
     </a>
-    <button type="button" class="btn btn-success m-2" asp-controller="AdminDashboard" asp-action="OpenManageCategories">Add a computer</button>
+    <a asp-controller="AdminDashboard" asp-action="OpenAddComputer">
+        <button type="button" class="btn btn-success m-2">Add a computer</button>
+    </a>
 </div>
 @if (@ViewBag.isManageCategories == true)
 {
@@ -69,6 +72,71 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary mt-1">Add</button>
+        </form>
+    </div>
+}
+
+@if (@ViewBag.isAddComputer == true)
+{
+    <div class="mt-1 w-25">
+        <h4>Add a computer</h4>
+        <form method="post" asp-controller="AdminDashboard" asp-action="AddComputer">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Computer Name</label>
+                @if (@ViewBag.isVariationMode == false)
+                {
+                    <input type="text" class="form-control" name="cName" id="cName" asp-for="cName" aria-describedby="emailHelp" placeholder="Enter computer name">
+                }
+                @if (@ViewBag.isVariationMode == true)
+                {
+                    <input type="text" class="form-control" name="cName" id="cName" asp-for="cName" value="@ViewBag.computer.cName" aria-describedby="emailHelp" placeholder="Enter computer name">
+                }
+            </div>
+            <div class="mb-1">
+                <label>Select category type</label>
+                <select name="cateName" class="form-control form-control-sm" asp-for="cateName">
+                    @foreach (var type in @ViewBag.categories)
+                    {
+                        <option>@type.cateName</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-1">
+                <label>Select series type</label>
+                <select name="seriesName" class="form-control form-control-sm" asp-for="seriesName">
+                    @foreach (var type in @ViewBag.series)
+                    {
+                        <option>@type.seriesName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Computer Genaral Price</label>
+                <input type="number" class="form-control" name="normalPrice" id="normalPrice" asp-for="normalPrice" aria-describedby="emailHelp" placeholder="Enter computer price">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Computer Quantity</label>
+                <input type="number" class="form-control" name="qty" id="qty" asp-for="qty" aria-describedby="emailHelp" placeholder="Enter qty">
+            </div>
+            <div class="dropdown-divider w-50 mb-1"></div>
+            <button type="submit" class="btn btn-primary mt-2">Add</button>
+            <h6 class="text-success mb-2 mt-1">@ViewBag.computerStatus</h6>
+        </form>
+
+        <form method="post" asp-controller="AdminDashboard" asp-action="AddVariation">
+            <h2>@ViewBag.variation</h2>
+            <div class="mb-1 mt-1">
+                <h4>Variation List</h4>
+                @foreach (var item in @ViewBag.variationList)
+                {
+                    <div class="text-sm-lef mb-1 mt-1">
+                        Variation name: @item.comvName
+                        <div class="dropdown-divider w-50 mb-1"></div>
+                    </div>
+                }
+            </div>
+            <input type="text" class="form-control" name="variationName" id="variationName" aria-describedby="emailHelp" placeholder="Enter Variation">
+            <button type="submit" class="btn btn-success mt-2 mb-2">Add a variation</button>
         </form>
     </div>
 }
