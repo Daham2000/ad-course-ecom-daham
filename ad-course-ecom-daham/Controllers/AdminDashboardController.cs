@@ -32,14 +32,21 @@ namespace ad_course_ecom_daham.Controllers
 
         public IActionResult ProductMainView()
         {
-            _computerList = _computerService.GetComputers();
-            _seriesList = _seriesService.GetSeries();
-            _categories = _categoryService.GetCategories();
-            for(int i=0; i< _computerList.Count; i++)
+            try
             {
-                _computerList[i].seriesName = _seriesList.Where((s) => s.seriesId == _computerList[i].seriesId).FirstOrDefault().seriesName;
-                _computerList[i].cateName = _categories.Where((s) => s.cateId == _computerList[i].cateId).FirstOrDefault().cateName;
-                _computerList[i].normalPrice = decimal.Round(_computerList[i].normalPrice, 2, MidpointRounding.AwayFromZero);
+                _computerList = _computerService.GetComputers();
+                _seriesList = _seriesService.GetSeries();
+                _categories = _categoryService.GetCategories();
+                for (int i = 0; i < _computerList.Count; i++)
+                {
+                    _computerList[i].seriesName = _seriesList.Where((s) => s.seriesId == _computerList[i].seriesId).FirstOrDefault().seriesName;
+                    _computerList[i].cateName = _categories.Where((s) => s.cateId == _computerList[i].cateId).FirstOrDefault().cateName;
+                    _computerList[i].normalPrice = decimal.Round(_computerList[i].normalPrice, 2, MidpointRounding.AwayFromZero);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
 
             ViewBag.isManageCategories = false;
@@ -74,15 +81,23 @@ namespace ad_course_ecom_daham.Controllers
 
         public IActionResult OpenManageSeries()
         {
-            List<Series> series = _seriesService.GetSeries();
-            _categories  = _categoryService.GetCategories();
-            for(int i = 0; i < series.Count; i++)
+            try
             {
-                Category category = _categories.Where((c) => c.cateId == series[i].cateId).FirstOrDefault();
-                series[i].categoryName = category.cateName;
+                List<Series> series = _seriesService.GetSeries();
+                _categories = _categoryService.GetCategories();
+                for (int i = 0; i < series.Count; i++)
+                {
+                    Category category = _categories.Where((c) => c.cateId == series[i].cateId).FirstOrDefault();
+                    series[i].categoryName = category.cateName;
+                }
+                ViewBag.series = series;
+                ViewBag.categories = _categories;
             }
-            ViewBag.series = series;
-            ViewBag.categories = _categories;
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+           
             ViewBag.isManageSeries = true;
             ViewBag.viewProduct = false;
             ViewBag.isManageCategories = false;
@@ -93,19 +108,28 @@ namespace ad_course_ecom_daham.Controllers
         public IActionResult AddSeries(string seriesName, string categoryName)
         {
             Series newSeries = new Series();
-            _categories = _categoryService.GetCategories();
-            newSeries.seriesName = seriesName;
-            Category cc = _categories.Where((c) => c.cateName == categoryName).FirstOrDefault();
-            newSeries.cateId = cc.cateId;
-            _seriesService.AddSeries(newSeries);
-            List<Series> series = _seriesService.GetSeries();
-            for (int i = 0; i < series.Count; i++)
+            try
             {
-                Category ca = _categories.Where((c) => c.cateId == series[i].cateId).FirstOrDefault();
-                series[i].categoryName = ca.cateName;
+                _categories = _categoryService.GetCategories();
+                newSeries.seriesName = seriesName;
+                Category cc = _categories.Where((c) => c.cateName == categoryName).FirstOrDefault();
+                newSeries.cateId = cc.cateId;
+                _seriesService.AddSeries(newSeries);
+                List<Series> series = _seriesService.GetSeries();
+                for (int i = 0; i < series.Count; i++)
+                {
+                    Category ca = _categories.Where((c) => c.cateId == series[i].cateId).FirstOrDefault();
+                    series[i].categoryName = ca.cateName;
+                }
+
+                ViewBag.series = series;
+                ViewBag.categories = _categories;
             }
-            ViewBag.series = series;
-            ViewBag.categories = _categories;
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             ViewBag.isManageSeries = true;
             ViewBag.isManageCategories = false;
             ViewBag.viewProduct = false;
@@ -113,8 +137,16 @@ namespace ad_course_ecom_daham.Controllers
         }
 
         public IActionResult OpenAddComputer() {
-            _seriesList = _seriesService.GetSeries();
-            _categories = _categoryService.GetCategories();
+            try
+            {
+                _seriesList = _seriesService.GetSeries();
+                _categories = _categoryService.GetCategories();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             ViewBag.series = _seriesList;
             ViewBag.categories = _categories;
             ViewBag.isManageSeries = false;
@@ -130,18 +162,24 @@ namespace ad_course_ecom_daham.Controllers
         [HttpPost]
         public IActionResult AddComputer(Computer computer)
         {
-            _seriesList = _seriesService.GetSeries();
-            _categories = _categoryService.GetCategories();
-            
-            Category cc = _categories.Where((c) => c.cateName == computer.cateName).FirstOrDefault();
-            computer.cateId = cc.cateId;
-            Series ss = _seriesList.Where((c) => c.seriesName == computer.seriesName).FirstOrDefault();
-            computer.seriesId = ss.seriesId;
-            computer.comId = Guid.NewGuid();
-            HttpContext.Session.SetString("comId", computer.comId.ToString());
+            try
+            {
+                _seriesList = _seriesService.GetSeries();
+                _categories = _categoryService.GetCategories();
+                Category cc = _categories.Where((c) => c.cateName == computer.cateName).FirstOrDefault();
+                computer.cateId = cc.cateId;
+                Series ss = _seriesList.Where((c) => c.seriesName == computer.seriesName).FirstOrDefault();
+                computer.seriesId = ss.seriesId;
 
-            _computerService.AddComputer(computer);
+                computer.comId = Guid.NewGuid();
+                HttpContext.Session.SetString("comId", computer.comId.ToString());
 
+                _computerService.AddComputer(computer);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             ViewBag.computerStatus = "Computer Added successfull. Now you can add variations.";
             ViewBag.series = _seriesList;
             ViewBag.categories = _categories;
@@ -157,18 +195,34 @@ namespace ad_course_ecom_daham.Controllers
         [HttpPost]
         public IActionResult AddVariation(string variationName)
         {
-            _seriesList = _seriesService.GetSeries();
-            _categories = _categoryService.GetCategories();
+            try
+            {
+                _seriesList = _seriesService.GetSeries();
+                _categories = _categoryService.GetCategories();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             ComVariation comVariation = new ComVariation();
             comVariation.comvName = variationName;
             Guid comId = new Guid(HttpContext.Session.GetString("comId"));
             comVariation.comId = comId;
-            _variationService.AddVariation(comVariation);
-            _variationList = _variationService.GetVariationsByComId(comId);
-            for(int i=0; i< _variationList.Count; i++)
+            try
             {
-                _variationList[i].variationOptions = new List<ComVariationOption>();
+                _variationService.AddVariation(comVariation);
+                _variationList = _variationService.GetVariationsByComId(comId);
+                for (int i = 0; i < _variationList.Count; i++)
+                {
+                    _variationList[i].variationOptions = new List<ComVariationOption>();
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             Computer computer = _computerService.GetComputerById(comId);
             ViewBag.series = _seriesList;
             ViewBag.categories = _categories;
@@ -187,35 +241,42 @@ namespace ad_course_ecom_daham.Controllers
         public IActionResult EditComputer(string comId)
         {
             HttpContext.Session.SetString("comId", comId);
-            _categories = _categoryService.GetCategories();
-            _seriesList = _seriesService.GetSeries();
-            Guid id = new Guid(comId);
-            _variationList = _variationService.GetVariationsByComId(id);
-            Computer com = _computerService.GetComputerById(id);
-            for(int i=0; i< _variationList.Count;i++)
+            try
             {
-                _variationList[i].variationOptions = new List<ComVariationOption>();
-            }
-            Category category = _categories.Where((c) => c.cateId == com.cateId).FirstOrDefault();
-            Series series = _seriesList.Where((c) => c.seriesId == com.seriesId).FirstOrDefault();
-            com.cateName = category.cateName;
-            com.seriesName = series.seriesName;
-
-            ViewBag.categories = _categories;
-            ViewBag.series = _seriesList;
-            ViewBag.isManageCategories = true;
-            ViewBag.viewProduct = false;
-            ViewBag.isManageSeries = false;
-            ViewBag.computer = com;
-
-            ViewBag.variationList = _variationList;
-            for (int i = 0; i < _variationList.Count; i++)
-            {
-                _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(_variationList[i].comvId);
-                for (int j = 0; j < _variationList[i].variationOptions.Count; j++)
+                _categories = _categoryService.GetCategories();
+                _seriesList = _seriesService.GetSeries();
+                Guid id = new Guid(comId);
+                _variationList = _variationService.GetVariationsByComId(id);
+                Computer com = _computerService.GetComputerById(id);
+                for (int i = 0; i < _variationList.Count; i++)
                 {
-                    _variationList[i].variationOptions[j].price = decimal.Round(_variationList[i].variationOptions[j].price, 2, MidpointRounding.AwayFromZero);
+                    _variationList[i].variationOptions = new List<ComVariationOption>();
                 }
+                Category category = _categories.Where((c) => c.cateId == com.cateId).FirstOrDefault();
+                Series series = _seriesList.Where((c) => c.seriesId == com.seriesId).FirstOrDefault();
+                com.cateName = category.cateName;
+                com.seriesName = series.seriesName;
+
+                ViewBag.categories = _categories;
+                ViewBag.series = _seriesList;
+                ViewBag.isManageCategories = true;
+                ViewBag.viewProduct = false;
+                ViewBag.isManageSeries = false;
+                ViewBag.computer = com;
+
+                ViewBag.variationList = _variationList;
+                for (int i = 0; i < _variationList.Count; i++)
+                {
+                    _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(_variationList[i].comvId);
+                    for (int j = 0; j < _variationList[i].variationOptions.Count; j++)
+                    {
+                        _variationList[i].variationOptions[j].price = decimal.Round(_variationList[i].variationOptions[j].price, 2, MidpointRounding.AwayFromZero);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
             return View("../Product/EditProductView");
         }
@@ -223,8 +284,16 @@ namespace ad_course_ecom_daham.Controllers
         [HttpPost]
         public IActionResult UpdateComputer(Computer computer)
         {
-            _seriesList = _seriesService.GetSeries();
-            _categories = _categoryService.GetCategories();
+            try
+            {
+                _seriesList = _seriesService.GetSeries();
+                _categories = _categoryService.GetCategories();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             Guid comId = new Guid(HttpContext.Session.GetString("comId"));
 
             Computer model = _computerService.GetComputerById(comId);
@@ -236,23 +305,32 @@ namespace ad_course_ecom_daham.Controllers
             model.cName = computer.cName;
             model.qty = computer.qty;
             model.normalPrice = computer.normalPrice;
-            _computerService.EditComputer(model);
 
-            HttpContext.Session.SetString("comId", computer.comId.ToString());
-
-            ViewBag.computerStatus = "Computer updated successfull. Now you can update variation options."; 
-            ViewBag.series = _seriesList;
-            ViewBag.categories = _categories;
-
-            _variationList = _variationService.GetVariationsByComId(comId);
-            for (int i = 0; i < _variationList.Count; i++)
+            try
             {
-                _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(_variationList[i].comvId);
-                for (int j = 0; j < _variationList[i].variationOptions.Count; j++)
+                _computerService.EditComputer(model);
+
+                HttpContext.Session.SetString("comId", computer.comId.ToString());
+
+                ViewBag.computerStatus = "Computer updated successfull. Now you can update variation options.";
+                ViewBag.series = _seriesList;
+                ViewBag.categories = _categories;
+
+                _variationList = _variationService.GetVariationsByComId(comId);
+                for (int i = 0; i < _variationList.Count; i++)
                 {
-                    _variationList[i].variationOptions[j].price = decimal.Round(_variationList[i].variationOptions[j].price, 2, MidpointRounding.AwayFromZero);
+                    _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(_variationList[i].comvId);
+                    for (int j = 0; j < _variationList[i].variationOptions.Count; j++)
+                    {
+                        _variationList[i].variationOptions[j].price = decimal.Round(_variationList[i].variationOptions[j].price, 2, MidpointRounding.AwayFromZero);
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+           
             ViewBag.variationList = _variationList;
             ViewBag.computer = computer;
             return View("../Product/EditProductView");
@@ -272,7 +350,14 @@ namespace ad_course_ecom_daham.Controllers
             comVariationOption.price = price;
             comVariationOption.quantity = quantity;
             comVariationOption.comvId = variationId;
-            _variationOptionService.AddVariation(comVariationOption);
+
+            try {
+                _variationOptionService.AddVariation(comVariationOption);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             Category category = _categories.Where((c) => c.cateId == computer.cateId).FirstOrDefault();
             Series series = _seriesList.Where((c) => c.seriesId == computer.seriesId).FirstOrDefault();
@@ -286,10 +371,17 @@ namespace ad_course_ecom_daham.Controllers
             _variationList = _variationService.GetVariationsByComId(comId);
             for (int i = 0; i < _variationList.Count; i++)
             {
-                _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(_variationList[i].comvId);
-                for(int j=0; j < _variationList[i].variationOptions.Count; j++)
+                try
                 {
-                    _variationList[i].variationOptions[j].price = decimal.Round(_variationList[i].variationOptions[j].price, 2, MidpointRounding.AwayFromZero);
+                    _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(_variationList[i].comvId);
+                    for (int j = 0; j < _variationList[i].variationOptions.Count; j++)
+                    {
+                        _variationList[i].variationOptions[j].price = decimal.Round(_variationList[i].variationOptions[j].price, 2, MidpointRounding.AwayFromZero);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
                 }
             }
             ViewBag.variationList = _variationList;
