@@ -25,7 +25,7 @@ namespace ad_course_ecom_daham.Business.Services
 
         void IComputerService.EditComputer(Computer model)
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
 
         Computer IComputerService.GetComputerById(Guid? id)
@@ -35,7 +35,7 @@ namespace ad_course_ecom_daham.Business.Services
 
         List<Computer> IComputerService.GetComputers()
         {
-            throw new NotImplementedException();
+            return _context.computers.ToList();
         }
     }
 }
