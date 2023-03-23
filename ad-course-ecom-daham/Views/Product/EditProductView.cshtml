@@ -1,18 +1,72 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ad_course_ecom_daham.Models.Product.Computer;
 @{
+    ViewData["Title"] = "Edit Computers";
 }
-@*<div class="m-2 ml-3">
-    <h6>Variation Options List</h6>
-    @foreach (var option in @item.variationOptions)
-    {
-        <div>
-            @item.comvName option name: option.comvopName
+<div class="mt-1 w-25">
+    <h4>Edit computer model: @ViewBag.computer.cName</h4>
+    <form method="post" asp-controller="AdminDashboard" asp-action="UpdateComputer">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Computer Name</label>
+            <input type="text" class="form-control" name="cName" id="cName" asp-for="cName" value="@ViewBag.computer.cName" aria-describedby="emailHelp" placeholder="Enter computer name">
+
         </div>
-    }
-    <input type="text" class="form-control" name="variationOptionName" id="variationOptionName" aria-describedby="emailHelp" placeholder="Enter Variation Option Name">
-    <input type="number" class="form-control" name="variationOptionPrice" id="variationOptionPrice" aria-describedby="emailHelp" placeholder="Enter Variation Option Price">
-    <input type="number" class="form-control" name="variationOptionQty" id="variationOptionQty" aria-describedby="emailHelp" placeholder="Enter Variation Option Qty">
-    <button type="submit" class="btn btn-success mt-2 mb-2">Add a variation option</button>
-</div>*@
+        <div class="mb-1">
+            <label>Select category type</label>
+            <select name="cateName" value="@ViewBag.computer.cateName" class="form-control form-control-sm" asp-for="cateName">
+                @foreach (var type in @ViewBag.categories)
+                {
+                    <option>@type.cateName</option>
+                }
+            </select>
+        </div>
+        <div class="mb-1">
+            <label>Select series type</label>
+            <select name="seriesName" value="@ViewBag.computer.seriesName" class="form-control form-control-sm" asp-for="seriesName">
+                @foreach (var type in @ViewBag.series)
+                {
+                    <option>@type.seriesName</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Computer Genaral Price</label>
+            <input type="number" class="form-control" name="normalPrice" id="normalPrice" value="@ViewBag.computer.normalPrice" asp-for="normalPrice" aria-describedby="emailHelp" placeholder="Enter computer price">
+
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Computer Quantity</label>
+            <input type="number" class="form-control" name="qty" id="qty" asp-for="qty" value="@ViewBag.computer.qty" aria-describedby="emailHelp" placeholder="Enter qty">
+        </div>
+        <div class="dropdown-divider w-50 mb-1"></div>
+
+        <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
+        <h6 class="text-success mb-4 mt-1">@ViewBag.computerStatus</h6>
+    </form>
+
+    <form method="post" asp-controller="AdminDashboard" asp-action="AddVariationOptions">
+        <h2>@ViewBag.variation</h2>
+        <div class="mb-1 mt-2">
+            <h5>Edit Variation options</h5>
+            @foreach (var item in @ViewBag.variationList)
+            {
+                <div class="text-sm-lef mb-1 mt-1">
+                    Variation name: @item.comvName
+                    <div class="m-2 ml-3">
+                        <h6>Variation Options List</h6>
+                        @foreach (var option in @item.variationOptions)
+                        {
+                            <div>
+                                @item.comvName option name: option.comvopName
+                            </div>
+                        }
+                        <input type="text" class="form-control" name="variationOptionName" id="variationOptionName" aria-describedby="emailHelp" placeholder="Enter Variation Option Name">
+                        <input type="number" class="form-control" name="variationOptionPrice" id="variationOptionPrice" aria-describedby="emailHelp" placeholder="Enter Variation Option Price">
+                        <input type="number" class="form-control" name="variationOptionQty" id="variationOptionQty" aria-describedby="emailHelp" placeholder="Enter Variation Option Qty">
+                        <button type="submit" class="btn btn-success mt-2 mb-2">Add a variation option</button>
+                    </div>
+                    <div class="dropdown-divider w-50 mb-1"></div>
+                </div>
+            }
+        </div>
+    </form>
+</div>

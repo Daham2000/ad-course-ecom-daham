@@ -164,25 +164,29 @@
 @if (@ViewBag.viewProduct == true)
 {
     <h5>Computers List</h5>
-    <p>All prices are in LKR (Sri Lankan Ruppes)</p>
-    <div class="container mt-3">
-        <div class="row">
-            @foreach (var item in @ViewBag.computerList)
-            {
-                <div class="col">
-                    <div class="card mb-3" style="width: 18rem;">
-                        <img class="card-img-top" src="https://cdn.ttgtmedia.com/rms/onlineimages/hp_elitebook_mobile.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">@item.cName</h5>
-                            <p class="card-text">Computer Type: @item.cateName</p>
-                            <p class="card-text">Series: @item.seriesName</p>
-                            <p class="card-text">Starting Price (LKR): @item.normalPrice</p>
-                            <p class="card-text">Available Qty: @item.qty</p>
-                            <a href="#" class="btn btn-primary">Edit Details</a>
+        <p>All prices are in LKR (Sri Lankan Ruppes)</p>
+        <div class="container mt-3">
+            <div class="row">
+                @foreach (var item in @ViewBag.computerList)
+                {
+                    <div class="col">
+                        <div class="card mb-3" style="width: 18rem;">
+                            <img class="card-img-top" src="https://cdn.ttgtmedia.com/rms/onlineimages/hp_elitebook_mobile.jpg" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 name="cName" class="card-title">@item.cName</h5>
+                                <p class="card-text">Computer ID: @item.comId</p>
+                                <p class="card-text">Computer Type: @item.cateName</p>
+                                <p class="card-text">Series: @item.seriesName</p>
+                                <p class="card-text">Starting Price (LKR): @item.normalPrice</p>
+                                <p class="card-text">Available Qty: @item.qty</p>
+                                <form method="post" asp-controller="AdminDashboard" asp-action="EditComputer">
+                                    <input type="text" style="display: none" class="form-control" name="comId" value="@item.comId" asp-for="comId" aria-describedby="emailHelp" placeholder="Enter computer name">
+                                    <button type="submit" class="btn btn-primary">Edit Details</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
-    </div>
 }
