@@ -13,7 +13,7 @@ namespace ad_course_ecom_daham.Business.Services
         }
         void IVariationOptionService.AddVariation(ComVariationOption model)
         {
-            model.comvId = Guid.NewGuid();
+            model.comvopId = Guid.NewGuid();
             _context.Add(model);
             _context.SaveChanges();
         }

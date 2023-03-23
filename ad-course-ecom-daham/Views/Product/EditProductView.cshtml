@@ -51,12 +51,21 @@
             {
                 <div class="text-sm-lef mb-1 mt-1">
                     Variation name: @item.comvName
-                    <div class="m-2 ml-3">
+                    <div class="m-2 ml-3" style="padding-left: 20px;">
                         <h6>Variation Options List</h6>
                         @foreach (var option in @item.variationOptions)
                         {
                             <div>
-                                @item.comvName option name: option.comvopName
+                                <div>
+                                    @item.comvName option name: @option.comvopName
+                                </div>
+                                <div>
+                                    @item.comvName price: @option.price
+                                </div>
+                                <div>
+                                    @item.comvName price: @option.quantity
+                                </div>
+                                <div class="dropdown-divider w-50 mb-1"></div>
                             </div>
                         }
                         <input type="text" class="form-control" name="comvopName" id="comvopName" aria-describedby="emailHelp" placeholder="Enter Variation Option Name">

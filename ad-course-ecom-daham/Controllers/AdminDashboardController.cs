@@ -209,6 +209,14 @@ namespace ad_course_ecom_daham.Controllers
             ViewBag.computer = com;
 
             ViewBag.variationList = _variationList;
+            for (int i = 0; i < _variationList.Count; i++)
+            {
+                _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(_variationList[i].comvId);
+                for (int j = 0; j < _variationList[i].variationOptions.Count; j++)
+                {
+                    _variationList[i].variationOptions[j].price = decimal.Round(_variationList[i].variationOptions[j].price, 2, MidpointRounding.AwayFromZero);
+                }
+            }
             return View("../Product/EditProductView");
         }
 
@@ -239,7 +247,11 @@ namespace ad_course_ecom_daham.Controllers
             _variationList = _variationService.GetVariationsByComId(comId);
             for (int i = 0; i < _variationList.Count; i++)
             {
-                _variationList[i].variationOptions = new List<ComVariationOption>();
+                _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(_variationList[i].comvId);
+                for (int j = 0; j < _variationList[i].variationOptions.Count; j++)
+                {
+                    _variationList[i].variationOptions[j].price = decimal.Round(_variationList[i].variationOptions[j].price, 2, MidpointRounding.AwayFromZero);
+                }
             }
             ViewBag.variationList = _variationList;
             ViewBag.computer = computer;
@@ -260,6 +272,7 @@ namespace ad_course_ecom_daham.Controllers
             comVariationOption.price = price;
             comVariationOption.quantity = quantity;
             comVariationOption.comvId = variationId;
+            _variationOptionService.AddVariation(comVariationOption);
 
             Category category = _categories.Where((c) => c.cateId == computer.cateId).FirstOrDefault();
             Series series = _seriesList.Where((c) => c.seriesId == computer.seriesId).FirstOrDefault();
@@ -273,7 +286,11 @@ namespace ad_course_ecom_daham.Controllers
             _variationList = _variationService.GetVariationsByComId(comId);
             for (int i = 0; i < _variationList.Count; i++)
             {
-                _variationList[i].variationOptions = new List<ComVariationOption>();
+                _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(variationId);
+                for(int j=0; j < _variationList[i].variationOptions.Count; j++)
+                {
+                    _variationList[i].variationOptions[j].price = decimal.Round(_variationList[i].variationOptions[j].price, 2, MidpointRounding.AwayFromZero);
+                }
             }
             ViewBag.variationList = _variationList;
 

@@ -22,6 +22,7 @@ builder.Services.AddScoped<ICategoryService, CategoryServices>();
 builder.Services.AddScoped<ISeriesService, SeriesServices>();
 builder.Services.AddScoped<IComputerService, ComputerService>();
 builder.Services.AddScoped<IVariationService, VariationService>();
+builder.Services.AddScoped<IVariationOptionService, VariationOptionsService>();
 
 var app = builder.Build();
 
