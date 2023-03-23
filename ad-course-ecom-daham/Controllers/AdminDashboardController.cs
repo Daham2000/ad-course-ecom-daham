@@ -286,7 +286,7 @@ namespace ad_course_ecom_daham.Controllers
             _variationList = _variationService.GetVariationsByComId(comId);
             for (int i = 0; i < _variationList.Count; i++)
             {
-                _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(variationId);
+                _variationList[i].variationOptions = _variationOptionService.GetVariationsByComId(_variationList[i].comvId);
                 for(int j=0; j < _variationList[i].variationOptions.Count; j++)
                 {
                     _variationList[i].variationOptions[j].price = decimal.Round(_variationList[i].variationOptions[j].price, 2, MidpointRounding.AwayFromZero);

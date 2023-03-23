@@ -292,6 +292,8 @@ namespace ad_course_ecom_daham.Migrations
                     seriesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     cName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    cImage = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     normalPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     qty = table.Column<int>(type: "int", nullable: false)
                 },
