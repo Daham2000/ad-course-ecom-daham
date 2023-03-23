@@ -59,9 +59,10 @@
                                 @item.comvName option name: option.comvopName
                             </div>
                         }
-                        <input type="text" class="form-control" name="variationOptionName" id="variationOptionName" aria-describedby="emailHelp" placeholder="Enter Variation Option Name">
-                        <input type="number" class="form-control" name="variationOptionPrice" id="variationOptionPrice" aria-describedby="emailHelp" placeholder="Enter Variation Option Price">
-                        <input type="number" class="form-control" name="variationOptionQty" id="variationOptionQty" aria-describedby="emailHelp" placeholder="Enter Variation Option Qty">
+                        <input type="text" class="form-control" name="comvopName" id="comvopName" aria-describedby="emailHelp" placeholder="Enter Variation Option Name">
+                        <input type="number" class="form-control" name="price" id="price" aria-describedby="emailHelp" placeholder="Enter Variation Option Price">
+                        <input type="number" class="form-control" name="quantity" id="quantity" aria-describedby="emailHelp" placeholder="Enter Variation Option Qty">
+                        <input type="text" style="display: none" class="form-control" name="comvId" value="@item.comvId" aria-describedby="emailHelp" placeholder="Enter computer name">
                         <button type="submit" class="btn btn-success mt-2 mb-2">Add a variation option</button>
                     </div>
                     <div class="dropdown-divider w-50 mb-1"></div>

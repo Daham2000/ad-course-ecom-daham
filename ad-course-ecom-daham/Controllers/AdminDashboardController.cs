@@ -12,15 +12,17 @@ namespace ad_course_ecom_daham.Controllers
         private readonly ISeriesService _seriesService;
         private readonly IComputerService _computerService;
         private readonly IVariationService _variationService;
+        private readonly IVariationOptionService _variationOptionService;
         List<Series> _seriesList;
         List<Category> _categories;
         List<Computer> _computerList;
         List<ComVariation> _variationList = new List<ComVariation>();
-        public AdminDashboardController(IVariationService variationService, ICategoryService categoryService, ISeriesService seriesService, IComputerService computerService) {
+        public AdminDashboardController(IVariationOptionService variationOptionService, IVariationService variationService, ICategoryService categoryService, ISeriesService seriesService, IComputerService computerService) {
             _categoryService = categoryService;
             _seriesService = seriesService;
             _computerService = computerService;
             _variationService = variationService;
+            _variationOptionService = variationOptionService;
         }
         public IActionResult Index()
         {
@@ -241,6 +243,40 @@ namespace ad_course_ecom_daham.Controllers
             }
             ViewBag.variationList = _variationList;
             ViewBag.computer = computer;
+            return View("../Product/EditProductView");
+        }
+
+        [HttpPost]
+        public IActionResult AddVariationOptions(string comvopName, string comvId, decimal price, int quantity)
+        {
+            _seriesList = _seriesService.GetSeries();
+            _categories = _categoryService.GetCategories();
+            Guid comId = new Guid(HttpContext.Session.GetString("comId"));
+            Guid variationId = new Guid(comvId);
+            Computer computer = _computerService.GetComputerById(comId);
+
+            ComVariationOption comVariationOption = new ComVariationOption();
+            comVariationOption.comvopName = comvopName;
+            comVariationOption.price = price;
+            comVariationOption.quantity = quantity;
+            comVariationOption.comvId = variationId;
+
+            Category category = _categories.Where((c) => c.cateId == computer.cateId).FirstOrDefault();
+            Series series = _seriesList.Where((c) => c.seriesId == computer.seriesId).FirstOrDefault();
+            computer.cateName = category.cateName;
+            computer.seriesName = series.seriesName;
+
+            ViewBag.categories = _categories;
+            ViewBag.series = _seriesList;
+            ViewBag.computer = computer;
+
+            _variationList = _variationService.GetVariationsByComId(comId);
+            for (int i = 0; i < _variationList.Count; i++)
+            {
+                _variationList[i].variationOptions = new List<ComVariationOption>();
+            }
+            ViewBag.variationList = _variationList;
+
             return View("../Product/EditProductView");
         }
     }
