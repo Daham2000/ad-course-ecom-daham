@@ -6,6 +6,8 @@ using ad_course_ecom_daham.Models.CustomerModels;
 using ad_course_ecom_daham.Models.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
+using System.Net;
 
 namespace ad_course_ecom_daham.Controllers
 {
@@ -434,7 +436,7 @@ namespace ad_course_ecom_daham.Controllers
                 Guid orId = new Guid(oId);
                 Order order = _orderService.GetOrderById(orId);
                 order.status = orderStatus;
-                _orderService.EditOrder(order);
+                _orderService.EditOrder(order);  
             } catch(Exception e) { 
                 Console.WriteLine();
             }
@@ -451,6 +453,30 @@ namespace ad_course_ecom_daham.Controllers
                 {
                     Computer orderComputer = _computerService.GetComputerById(_ordersList[i].orderItems[j].comId);
                     _ordersList[i].orderItems[j].computer = orderComputer;
+                }
+
+                var senderEmail = new MailAddress("courseworkt810@gmail.com");
+                var receiverEmail = new MailAddress(customer.cEmail, "Receiver");
+                var password = "drmgqctqxnvlagvg";
+
+                var sub = "Your order " + oId.Substring(0,10);
+                var body = "Hi " + customer.cName + "\nYour order has been moved to " + orderStatus + " status...";
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(senderEmail.Address, password),
+                    EnableSsl = true
+                };
+                using (var mess = new MailMessage(senderEmail, receiverEmail)
+                {
+                    Subject = sub,
+                    Body = body
+                })
+                {
+                    smtp.Send(mess);
                 }
             }
             ViewBag.orders = _ordersList;
