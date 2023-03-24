@@ -25,6 +25,7 @@ namespace ad_course_ecom_daham.Controllers
         List<Category> _categories;
         List<Computer> _computerList;
         List<Order> _ordersList;
+        List<Customer> _customersList;
         List<ComVariation> _variationList = new List<ComVariation>();
         public AdminDashboardController(IOrderItemService orderItemService, ICustomerService customerService, IOrderService orderService, IVariationOptionService variationOptionService, IVariationService variationService, ICategoryService categoryService, ISeriesService seriesService, IComputerService computerService) {
             _categoryService = categoryService;
@@ -38,6 +39,23 @@ namespace ad_course_ecom_daham.Controllers
         }
         public IActionResult Index()
         {
+            _ordersList = _orderService.GetOrders();
+            _customersList = _customerService.GetCustomers();
+            for (int i = 0; i < _ordersList.Count; i++)
+            {
+                Customer customer = _customerService.GetCustomerById(_ordersList[i].cId);
+                _ordersList[i].customer = customer;
+                _ordersList[i].totalPrice = decimal.Round(_ordersList[i].totalPrice, 2, MidpointRounding.AwayFromZero);
+                List<OrderItem> orderItemList = _orderItemService.GetOrderItemById(_ordersList[i].oId);
+                _ordersList[i].orderItems = orderItemList;
+                for (int j = 0; j < _ordersList[i].orderItems.Count; j++)
+                {
+                    Computer orderComputer = _computerService.GetComputerById(_ordersList[i].orderItems[j].comId);
+                    _ordersList[i].orderItems[j].computer = orderComputer;
+                }
+            }
+            ViewBag.orders = _ordersList;
+            ViewBag.customers = _customersList;
             ViewBag.isManageCategories = false;
             return View("../Admin/AdminDashboard");
         }

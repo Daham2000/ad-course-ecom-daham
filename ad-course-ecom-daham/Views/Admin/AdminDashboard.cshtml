@@ -3,4 +3,65 @@
 *@
 @{
 }
-<p>Admin Dashboard</p>
+<h5>Admin Dashboard</h5>
+<h6 class="mt-4 text-secondary">Last delivered orders summery</h6>
+<div class="mt-3">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Order ID</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Order Total</th>
+                <th scope="col">Order Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < @ViewBag.orders.Count; i++)
+            {
+                var index = i + 1;
+                <tr>
+                    <th scope="row">@index</th>
+                    <td>@ViewBag.orders[@i].oId</td>
+                    <td>@ViewBag.orders[@i].customer.cName</td>
+                    <td>@ViewBag.orders[@i].totalPrice</td>
+                    <td>@ViewBag.orders[@i].totalQty</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-2">
+    <h6 class="mt-4 text-secondary">Customers report</h6>
+    <div class="mt-3">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Customer ID</th>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Billing Address</th>
+                    <th scope="col">Shipping Address</th>
+                    <th scope="col">Phone number</th>
+                    <th scope="col">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < @ViewBag.customers.Count; i++)
+                {
+                    var index = i + 1;
+                    <tr>
+                        <th scope="row">@index</th>
+                        <td>@ViewBag.customers[@i].cId</td>
+                        <td>@ViewBag.customers[@i].cName</td>
+                        <td>@ViewBag.customers[@i].cBillingAddress</td>
+                        <td>@ViewBag.customers[@i].cShippingAddress</td>
+                        <td>@ViewBag.customers[@i].cNumber</td>
+                        <td>@ViewBag.customers[@i].cEmail</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
