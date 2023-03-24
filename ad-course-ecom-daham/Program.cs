@@ -50,7 +50,7 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=AdminDashboard}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

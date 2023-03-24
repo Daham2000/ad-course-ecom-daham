@@ -520,6 +520,11 @@ namespace ad_course_ecom_daham.Controllers
 
             return View("../Order/AdminOrderView");
         }
+
+        public IActionResult AdminLogout()
+        {
+            return View("../Auth/LoginView");
         }
+    }
 
 }
