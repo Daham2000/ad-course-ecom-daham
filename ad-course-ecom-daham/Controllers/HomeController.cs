@@ -18,6 +18,11 @@ namespace ad_course_ecom_daham.Controllers
             return View();
         }
 
+        public IActionResult ViewSingleProduct()
+        {
+            return View("../Product/SingleProductView");
+        }
+
         public IActionResult Privacy()
         {
             return View("../Product/ProductView");
