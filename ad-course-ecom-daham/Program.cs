@@ -23,6 +23,9 @@ builder.Services.AddScoped<ISeriesService, SeriesServices>();
 builder.Services.AddScoped<IComputerService, ComputerService>();
 builder.Services.AddScoped<IVariationService, VariationService>();
 builder.Services.AddScoped<IVariationOptionService, VariationOptionsService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 var app = builder.Build();
 

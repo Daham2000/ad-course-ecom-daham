@@ -14,5 +14,7 @@ namespace ad_course_ecom_daham.Models
         public decimal totalPrice { get; set; }
         public string status { get; set; }
         public int totalQty { get; set; }
+        [NotMapped]
+        public List<OrderItem> orderItems { get; set; }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using ad_course_ecom_daham.Business.Interfaces;
 using ad_course_ecom_daham.Business.Services;
+using ad_course_ecom_daham.Migrations;
+using ad_course_ecom_daham.Models;
+using ad_course_ecom_daham.Models.CustomerModels;
 using ad_course_ecom_daham.Models.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,21 +16,54 @@ namespace ad_course_ecom_daham.Controllers
         private readonly IComputerService _computerService;
         private readonly IVariationService _variationService;
         private readonly IVariationOptionService _variationOptionService;
+        private readonly IOrderService _orderService;
+        private readonly IOrderItemService _orderItemService;
+        private readonly ICustomerService _customerService;
         List<Series> _seriesList;
         List<Category> _categories;
         List<Computer> _computerList;
+        List<Order> _ordersList;
         List<ComVariation> _variationList = new List<ComVariation>();
-        public AdminDashboardController(IVariationOptionService variationOptionService, IVariationService variationService, ICategoryService categoryService, ISeriesService seriesService, IComputerService computerService) {
+        public AdminDashboardController(IOrderItemService orderItemService, ICustomerService customerService, IOrderService orderService, IVariationOptionService variationOptionService, IVariationService variationService, ICategoryService categoryService, ISeriesService seriesService, IComputerService computerService) {
             _categoryService = categoryService;
             _seriesService = seriesService;
             _computerService = computerService;
             _variationService = variationService;
             _variationOptionService = variationOptionService;
+            _orderService = orderService;
+            _orderItemService = orderItemService;
+            _customerService = customerService;
         }
         public IActionResult Index()
         {
             ViewBag.isManageCategories = false;
             return View("../Admin/AdminDashboard");
+        }
+
+        public IActionResult OpenManageOrders()
+        {
+            List<string> orderStatus = new List<string>();
+            orderStatus.Add("Pending");
+            orderStatus.Add("In process");
+            orderStatus.Add("Dispatched");
+            orderStatus.Add("Delivered");
+
+            _ordersList = _orderService.GetOrders();
+            for (int i = 0; i < _ordersList.Count; i++)
+            {
+                Customer customer = _customerService.GetCustomerById(_ordersList[i].cId);
+                _ordersList[i].customer = customer;
+                List<OrderItem> orderItemList = _orderItemService.GetOrderItemById(_ordersList[i].oId);
+                _ordersList[i].orderItems = orderItemList;
+                for (int j = 0; j < _ordersList[i].orderItems.Count; j++)
+                {
+                    Computer orderComputer = _computerService.GetComputerById(_ordersList[i].orderItems[j].comId);
+                    _ordersList[i].orderItems[j].computer = orderComputer;
+                }
+            }
+            ViewBag.orders = _ordersList;
+            ViewBag.orderStatus = orderStatus;
+            return View("../Order/AdminOrderView");
         }
 
         public IActionResult ProductMainView()
@@ -388,6 +424,46 @@ namespace ad_course_ecom_daham.Controllers
 
             return View("../Product/EditProductView");
         }
-    }
+
+
+        [HttpPost]
+        public IActionResult UpdateOrderStatus(string oId, string orderStatus)
+        {
+            try
+            {
+                Guid orId = new Guid(oId);
+                Order order = _orderService.GetOrderById(orId);
+                order.status = orderStatus;
+                _orderService.EditOrder(order);
+            } catch(Exception e) { 
+                Console.WriteLine();
+            }
+
+            _ordersList = _orderService.GetOrders();
+            for (int i = 0; i < _ordersList.Count; i++)
+            {
+                _ordersList[i].totalPrice = decimal.Round(_ordersList[i].totalPrice, 2, MidpointRounding.AwayFromZero);
+                Customer customer = _customerService.GetCustomerById(_ordersList[i].cId);
+                _ordersList[i].customer = customer;
+                List<OrderItem> orderItemList = _orderItemService.GetOrderItemById(_ordersList[i].oId);
+                _ordersList[i].orderItems = orderItemList;
+                for (int j = 0; j < _ordersList[i].orderItems.Count; j++)
+                {
+                    Computer orderComputer = _computerService.GetComputerById(_ordersList[i].orderItems[j].comId);
+                    _ordersList[i].orderItems[j].computer = orderComputer;
+                }
+            }
+            ViewBag.orders = _ordersList;
+
+            List<string> orderStatusList = new List<string>();
+            orderStatusList.Add("Pending");
+            orderStatusList.Add("In process");
+            orderStatusList.Add("Dispatched");
+            orderStatusList.Add("Delivered");
+            ViewBag.orderStatus = orderStatusList;
+
+            return View("../Order/AdminOrderView");
+        }
+        }
 
 }
