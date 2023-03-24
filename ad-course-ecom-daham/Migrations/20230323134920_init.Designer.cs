@@ -11,7 +11,7 @@ using ad_course_ecom_daham.Data;
 namespace ad_course_ecom_daham.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230320134150_init")]
+    [Migration("20230323134920_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,6 +145,10 @@ namespace ad_course_ecom_daham.Migrations
                     b.Property<Guid>("comId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("cImage")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("cName")
                         .IsRequired()

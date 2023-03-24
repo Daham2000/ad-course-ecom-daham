@@ -124,6 +124,17 @@
                 }
             </div>
             <div class="form-group">
+                <label for="exampleInputEmail1">Computer Image</label>
+                @if (@ViewBag.isVariationMode == false)
+                {
+                    <input type="text" class="form-control" name="cImage" id="cImage" asp-for="cImage" aria-describedby="emailHelp" placeholder="Enter computer image URL">
+                }
+                @if (@ViewBag.isVariationMode == true)
+                {
+                    <input type="text" class="form-control" name="cImage" id="cImage" value="@ViewBag.computer.cImage" asp-for="cImage" aria-describedby="emailHelp" placeholder="Enter computer image URL">
+                }
+            </div>
+            <div class="form-group">
                 <label for="exampleInputEmail1">Computer Quantity</label>
                 @if (@ViewBag.isVariationMode == false)
                 {
@@ -171,7 +182,7 @@
                 {
                     <div class="col">
                         <div class="card mb-3" style="width: 18rem;">
-                            <img class="card-img-top" src="https://cdn.ttgtmedia.com/rms/onlineimages/hp_elitebook_mobile.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="@item.cImage" alt="Card image cap">
                             <div class="card-body">
                                 <h5 name="cName" class="card-title">@item.cName</h5>
                                 <p class="card-text">Computer ID: @item.comId</p>

@@ -23,6 +23,9 @@ builder.Services.AddScoped<ISeriesService, SeriesServices>();
 builder.Services.AddScoped<IComputerService, ComputerService>();
 builder.Services.AddScoped<IVariationService, VariationService>();
 builder.Services.AddScoped<IVariationOptionService, VariationOptionsService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 var app = builder.Build();
 
@@ -47,7 +50,7 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=AdminDashboard}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

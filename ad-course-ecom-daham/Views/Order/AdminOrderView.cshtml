@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "View Orders";
+}
+<div>
+    @foreach (var order in @ViewBag.orders)
+    {
+        <div class="card" style="width: 35rem;">
+            <form method="post" asp-controller="AdminDashboard" asp-action="UpdateOrderStatus">
+                <div class="card-body">
+                    <h5 class="card-title">Order ID: @order.oId</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Customer name: @order.customer.cName</h6>
+                    <p class="card-text">Shipping Address: @order.customer.cShippingAddress</p>
+                    <p class="card-text">Order total: @order.totalPrice</p>
+                    <p class="card-text">Order Quantity: @order.totalQty</p>
+                    <h6>Order Item List</h6>
+                    @foreach (var item in order.orderItems)
+                    {
+                        <p class="card-text">Item Name: @item.computer.cName</p>
+                        <p class="card-text">Item Quantity: @item.qty</p>
+                    }
+                    @if (@order.status == "Delivered")
+                    {
+                        <h6 class="text-success">Order Status: @order.status</h6>
+                    }
+                    @if (@order.status != "Delivered")
+                    {
+                        <h6 class="text-danger">Order Status: @order.status</h6>
+                    }
+                    <input type="text" style="display: none" class="form-control" name="oId" value="@order.oId" aria-describedby="emailHelp" placeholder="Enter computer name">
+                    <div class="d-flex">
+                        <select name="orderStatus" class="form-control form-control-sm m-2">
+                            @foreach (var status in @ViewBag.orderStatus)
+                            {
+                                <option>@status</option>
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-primary m-2">Change status</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+</div>
+

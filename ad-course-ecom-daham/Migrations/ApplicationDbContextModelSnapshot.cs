@@ -144,6 +144,10 @@ namespace ad_course_ecom_daham.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("cImage")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("cName")
                         .IsRequired()
                         .HasColumnType("longtext");

@@ -31,7 +31,10 @@
         <div class="form-group">
             <label for="exampleInputEmail1">Computer Genaral Price</label>
             <input type="number" class="form-control" name="normalPrice" id="normalPrice" value="@ViewBag.computer.normalPrice" asp-for="normalPrice" aria-describedby="emailHelp" placeholder="Enter computer price">
-
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Computer Image URL</label>
+            <input type="text" class="form-control" name="cImage" id="cImage" value="@ViewBag.computer.cImage" asp-for="cImage" aria-describedby="emailHelp" placeholder="Enter computer image URL">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Computer Quantity</label>
@@ -43,7 +46,6 @@
         <h6 class="text-success mb-4 mt-1">@ViewBag.computerStatus</h6>
     </form>
 
-    <form method="post" asp-controller="AdminDashboard" asp-action="AddVariationOptions">
         <h2>@ViewBag.variation</h2>
         <div class="mb-1 mt-2">
             <h5>Edit Variation options</h5>
@@ -63,20 +65,22 @@
                                     @item.comvName price: @option.price
                                 </div>
                                 <div>
-                                    @item.comvName price: @option.quantity
+                                    @item.comvName available quantity: @option.quantity
                                 </div>
                                 <div class="dropdown-divider w-50 mb-1"></div>
                             </div>
                         }
+                    <form method="post" asp-controller="AdminDashboard" asp-action="AddVariationOptions">
                         <input type="text" class="form-control" name="comvopName" id="comvopName" aria-describedby="emailHelp" placeholder="Enter Variation Option Name">
                         <input type="number" class="form-control" name="price" id="price" aria-describedby="emailHelp" placeholder="Enter Variation Option Price">
                         <input type="number" class="form-control" name="quantity" id="quantity" aria-describedby="emailHelp" placeholder="Enter Variation Option Qty">
                         <input type="text" style="display: none" class="form-control" name="comvId" value="@item.comvId" aria-describedby="emailHelp" placeholder="Enter computer name">
                         <button type="submit" class="btn btn-success mt-2 mb-2">Add a variation option</button>
+                    </form>
+
                     </div>
                     <div class="dropdown-divider w-50 mb-1"></div>
                 </div>
             }
         </div>
-    </form>
 </div>
