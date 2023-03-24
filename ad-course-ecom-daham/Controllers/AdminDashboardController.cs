@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
+using ad_course_ecom_daham.Models.Chart;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace ad_course_ecom_daham.Controllers
 {
@@ -57,6 +60,15 @@ namespace ad_course_ecom_daham.Controllers
             ViewBag.orders = _ordersList;
             ViewBag.customers = _customersList;
             ViewBag.isManageCategories = false;
+
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            _computerList = _computerService.GetComputers();
+            for(int i=0; i< _computerList.Count; i++)
+            {
+                dataPoints.Add(new DataPoint(_computerList[i].cName, _computerList[i].qty));
+            }
+
+            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             return View("../Admin/AdminDashboard");
         }
 
