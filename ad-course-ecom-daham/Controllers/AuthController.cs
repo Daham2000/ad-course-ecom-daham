@@ -78,6 +78,8 @@ namespace ad_course_ecom_daham.Controllers
                 }
                 else
                 {
+                    List<Computer> computers = _computerService.GetComputers();
+                    ViewBag.computers = computers;  
                     return View("../Home/Index");
                 }
             }
