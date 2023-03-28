@@ -40,6 +40,12 @@ namespace ad_course_ecom_daham.Controllers
             _orderItemService = orderItemService;
             _customerService = customerService;
         }
+
+        /* 
+            Load Orders report details.
+            Load Customer report data and pass it to View using ViewBag.
+            Load Current stock report data and pass it to View using ViewBag.
+        */
         public IActionResult Index()
         {
             _ordersList = _orderService.GetOrders();
@@ -98,6 +104,9 @@ namespace ad_course_ecom_daham.Controllers
             return View("../Order/AdminOrderView");
         }
 
+        /*
+            Load all computers as a List and pass it to view using a Viewbag. 
+        */
         public IActionResult ProductMainView()
         {
             try
@@ -133,6 +142,10 @@ namespace ad_course_ecom_daham.Controllers
             ViewBag.isManageSeries = false;
             return View("../Product/ProductView");
         }
+
+        /* 
+            Add a new category using the data passed from the post method. 
+        */
         [HttpPost]
         public IActionResult AddCategory(string categoryName)
         {
