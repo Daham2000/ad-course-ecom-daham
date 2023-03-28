@@ -11,34 +11,47 @@ namespace ad_course_ecom_daham.Business.Services
         {
             _context = context;
         }
-        void IVariationOptionService.AddVariation(ComVariationOption model)
+
+        /*
+            Add a new variation to the database. 
+            ComVariationOption is the model used to add variation type. 
+            Defined primary key using Guid object in c#.
+        */
+        public void AddVariation(ComVariationOption model)
         {
             model.comvopId = Guid.NewGuid();
             _context.Add(model);
             _context.SaveChanges();
         }
 
-        void IVariationOptionService.DeleteVariation(Guid? id)
+        /* 
+            Delete variation filtered using model primary key id. 
+        */
+        public void DeleteVariation(Guid? id)
         {
             throw new NotImplementedException();
         }
 
-        void IVariationOptionService.EditVariation(ComVariationOption model)
+        /* 
+            Edit Variation row in the database by using ComVariationOption model object. 
+            model contain the data to be updated. 
+        */
+        public void EditVariation(ComVariationOption model)
         {
             throw new NotImplementedException();
         }
 
-        ComVariationOption IVariationOptionService.GetVariationById(Guid? id)
+        public ComVariationOption GetVariationById(Guid? id)
         {
             throw new NotImplementedException();
         }
 
-        List<ComVariationOption> IVariationOptionService.GetVariations()
+        public List<ComVariationOption> GetVariations()
         {
             throw new NotImplementedException();
         }
 
-        List<ComVariationOption> IVariationOptionService.GetVariationsByComId(Guid? comvId)
+        public List<ComVariationOption> GetVariationsByComId(Guid? comvId)
         {
             return _context.comVariationOptions.Where((v) => v.comvId == comvId).ToList();
         }

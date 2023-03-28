@@ -4,10 +4,10 @@ namespace ad_course_ecom_daham.Business.Interfaces
 {
     public interface ICategoryService
     {
-        void AddCategory(Category model);
-        List<Category> GetCategories();
-        Category GetCategoryById(Guid? id);
-        void EditCategory(Category model);
-        void DeleteCategory(Guid? id);
+        public void AddCategory(Category model);
+        public List<Category> GetCategories();
+        public Category GetCategoryById(Guid? id);
+        public void EditCategory(Category model);
+        public void DeleteCategory(Guid? id);
     }
 }

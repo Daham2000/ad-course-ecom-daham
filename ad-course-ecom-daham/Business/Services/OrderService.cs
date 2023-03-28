@@ -12,29 +12,45 @@ namespace ad_course_ecom_daham.Business.Services
         {
             _context = context;
         }
-        void IOrderService.AddOrder(Order model)
+
+        /* 
+            Add a new order using Order object. model Order contain the data to be added to the database. 
+        */
+        public void AddOrder(Order model)
         {
             model.oId = Guid.NewGuid();
             _context.Add(model);
             _context.SaveChanges();
         }
-
-        void IOrderService.DeleteOrder(Guid? id)
+        /* 
+            Delete an order using Order model unique primary key. Guid means unique id defined by c#. 
+            This function not yet implemented. 
+        */
+        public void DeleteOrder(Guid? id)
         {
             throw new NotImplementedException();
         }
 
-        void IOrderService.EditOrder(Order model)
+        /*
+            Edit order by using Order model which contain the data to be updated in the database. 
+        */
+        public void EditOrder(Order model)
         {
             _context.SaveChanges();
         }
 
-        List<Order> IOrderService.GetOrders()
+        /*
+            Get all orders as a list object. 
+        */
+        public List<Order> GetOrders()
         {
             return _context.orders.ToList();
         }
 
-        Order IOrderService.GetOrderById(Guid? id)
+        /* 
+            Return a single order filtered by Order id. 
+        */
+        public Order GetOrderById(Guid? id)
         {
             return _context.orders.Where((o) => o.oId == id).FirstOrDefault();
         }
