@@ -4,11 +4,11 @@ namespace ad_course_ecom_daham.Business.Interfaces
 {
     public interface IVariationService
     {
-        void AddVariation(ComVariation model);
-        List<ComVariation> GetVariations();
-        List<ComVariation> GetVariationsByComId(Guid? comId);
-        ComVariation GetVariationById(Guid? id);
-        void EditVariation(ComVariation model);
-        void DeleteVariation(Guid? id);
+        public void AddVariation(ComVariation model);
+        public List<ComVariation> GetVariations();
+        public List<ComVariation> GetVariationsByComId(Guid? comId);
+        public ComVariation GetVariationById(Guid? id);
+        public void EditVariation(ComVariation model);
+        public void DeleteVariation(Guid? id);
     }
 }

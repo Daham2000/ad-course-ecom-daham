@@ -12,30 +12,46 @@ namespace ad_course_ecom_daham.Business.Services
         {
             _context = context;
         }
-        void ICustomerService.AddCustomer(Customer model)
+        /*
+            Add a new customer to the database using this function. Model Customer is represant the all the data
+            to be added to the customer table. 
+        */ 
+        public void AddCustomer(Customer model)
         {
             throw new NotImplementedException();
         }
 
-        void ICustomerService.DeleteCustomer(Guid? id)
+        /*
+            Delete customer using customer primary key id. 
+        */
+        public void DeleteCustomer(Guid? id)
         {
             throw new NotImplementedException();
         }
 
-        void ICustomerService.EditCustomer(Customer model)
+        /*
+            Edit a customer to the database using this function. Model Customer is represant the all the data
+            to be edited of this customer object. 
+        */
+        public void EditCustomer(Customer model)
         {
             throw new NotImplementedException();
         }
 
-        Customer ICustomerService.GetCustomerById(Guid? id)
+        /*
+            Get a single customer using customer primary key. 
+        */
+        public Customer GetCustomerById(Guid? id)
         {
             return _context.Customer.Where((c) => c.cId == id).FirstOrDefault();
         }
 
-        List<Customer> ICustomerService.GetCustomers()
+        /*
+            Return all customers as a List. Customer is the model used for the List. 
+        */
+        public List<Customer> GetCustomers()
         {
             return _context.Customer.ToList();
-
         }
     }
 }

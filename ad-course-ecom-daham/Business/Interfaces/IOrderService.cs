@@ -5,10 +5,10 @@ namespace ad_course_ecom_daham.Business.Interfaces
 {
     public interface IOrderService
     {
-        void AddOrder(Order model);
-        List<Order> GetOrders();
-        Order GetOrderById(Guid? id);
-        void EditOrder(Order model);
-        void DeleteOrder(Guid? id);
+        public void AddOrder(Order model);
+        public List<Order> GetOrders();
+        public Order GetOrderById(Guid? id);
+        public void EditOrder(Order model);
+        public void DeleteOrder(Guid? id);
     }
 }

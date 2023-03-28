@@ -4,10 +4,10 @@ namespace ad_course_ecom_daham.Business.Interfaces
 {
     public interface IComputerService
     {
-        void AddComputer(Computer model);
-        List<Computer> GetComputers();
-        Computer GetComputerById(Guid? id);
-        void EditComputer(Computer model);
-        void DeleteComputer(Guid? id);
+        public void AddComputer(Computer model);
+        public List<Computer> GetComputers();
+        public Computer GetComputerById(Guid? id);
+        public void EditComputer(Computer model);
+        public void DeleteComputer(Guid? id);
     }
 }

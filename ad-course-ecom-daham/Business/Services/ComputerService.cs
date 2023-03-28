@@ -11,29 +11,41 @@ namespace ad_course_ecom_daham.Business.Services
         {
             _context = context;
         }
-
-        void IComputerService.AddComputer(Computer model)
+        /*
+            Adds a new computer to the database using the provided model object.
+            Model The Computer object containing the details of the computer to be added.
+        */
+        public void AddComputer(Computer model)
         {
             _context.Add(model);
             _context.SaveChanges();
         }
-
-        void IComputerService.DeleteComputer(Guid? id)
+        /* 
+            Delete a computer using computer primary key id. 
+        */
+        public void DeleteComputer(Guid? id)
         {
             throw new NotImplementedException();
         }
-
-        void IComputerService.EditComputer(Computer model)
+        /* 
+            Edit a computer using computer model object. 
+            Model The Computer object containing the details of the computer to be edited.
+        */
+        public void EditComputer(Computer model)
         {
             _context.SaveChanges();
         }
-
-        Computer IComputerService.GetComputerById(Guid? id)
+        /* 
+            Return a computer using computer primary key id. 
+        */
+        public Computer GetComputerById(Guid? id)
         {
             return _context.computers.Where((c) => c.comId == id).FirstOrDefault();
         }
-
-        List<Computer> IComputerService.GetComputers()
+        /* 
+            Return all computers as a list. 
+        */
+        public List<Computer> GetComputers()
         {
             return _context.computers.ToList();
         }
