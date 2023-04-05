@@ -40,47 +40,70 @@ namespace ad_course_ecom_daham.Controllers
             return View("../Auth/LoginView");
         }
 
+        private bool HasEmailSign(string yourString)
+        {
+            return yourString.Contains("@");
+        }
+
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
             try {
-                if(email == "admin@gmail.com")
+                if(HasEmailSign(email))
                 {
-                    _ordersList = _orderService.GetOrders();
-                    _customersList = _customerService.GetCustomers();
-                    for (int i = 0; i < _ordersList.Count; i++)
+                    if (email == "admin@gmail.com")
                     {
-                        Customer customer = _customerService.GetCustomerById(_ordersList[i].cId);
-                        _ordersList[i].customer = customer;
-                        _ordersList[i].totalPrice = decimal.Round(_ordersList[i].totalPrice, 2, MidpointRounding.AwayFromZero);
-                        List<OrderItem> orderItemList = _orderItemService.GetOrderItemById(_ordersList[i].oId);
-                        _ordersList[i].orderItems = orderItemList;
-                        for (int j = 0; j < _ordersList[i].orderItems.Count; j++)
+                        _ordersList = _orderService.GetOrders();
+                        _customersList = _customerService.GetCustomers();
+                        for (int i = 0; i < _ordersList.Count; i++)
                         {
-                            Computer orderComputer = _computerService.GetComputerById(_ordersList[i].orderItems[j].comId);
-                            _ordersList[i].orderItems[j].computer = orderComputer;
+                            Customer customer = _customerService.GetCustomerById(_ordersList[i].cId);
+                            _ordersList[i].customer = customer;
+                            _ordersList[i].totalPrice = decimal.Round(_ordersList[i].totalPrice, 2, MidpointRounding.AwayFromZero);
+                            List<OrderItem> orderItemList = _orderItemService.GetOrderItemById(_ordersList[i].oId);
+                            _ordersList[i].orderItems = orderItemList;
+                            for (int j = 0; j < _ordersList[i].orderItems.Count; j++)
+                            {
+                                Computer orderComputer = _computerService.GetComputerById(_ordersList[i].orderItems[j].comId);
+                                _ordersList[i].orderItems[j].computer = orderComputer;
+                            }
+                        }
+                        ViewBag.orders = _ordersList;
+                        ViewBag.customers = _customersList;
+                        ViewBag.isManageCategories = false;
+
+                        List<DataPoint> dataPoints = new List<DataPoint>();
+                        _computerList = _computerService.GetComputers();
+                        for (int i = 0; i < _computerList.Count; i++)
+                        {
+                            dataPoints.Add(new DataPoint(_computerList[i].cName, _computerList[i].qty));
+                        }
+
+                        ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+                        ViewBag.errorLogin = "";
+                        return View("../Admin/AdminDashboard");
+                    }
+                    else
+                    {
+                        Customer customer = _customerService.GetCustomerByName(email, password);
+                        if (customer != null)
+                        {
+                            HttpContext.Session.SetString("cId", customer.cId.ToString());
+                            List<Computer> computers = _computerService.GetComputers();
+                            ViewBag.computers = computers;
+                            return View("../Home/Index");
+                        }
+                        else
+                        {
+                            ViewBag.errorLogin = "Email or password you entered is incorrect.";
+                            return View("../Auth/LoginView");
                         }
                     }
-                    ViewBag.orders = _ordersList;
-                    ViewBag.customers = _customersList;
-                    ViewBag.isManageCategories = false;
-
-                    List<DataPoint> dataPoints = new List<DataPoint>();
-                    _computerList = _computerService.GetComputers();
-                    for (int i = 0; i < _computerList.Count; i++)
-                    {
-                        dataPoints.Add(new DataPoint(_computerList[i].cName, _computerList[i].qty));
-                    }
-
-                    ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-                    ViewBag.errorLogin = "";
-                    return View("../Admin/AdminDashboard");
                 }
                 else
                 {
-                    List<Computer> computers = _computerService.GetComputers();
-                    ViewBag.computers = computers;  
-                    return View("../Home/Index");
+                    ViewBag.errorLogin = "Email is not valid";
+                    return View("../Auth/LoginView");
                 }
             }
             catch(Exception e) {
