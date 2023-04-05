@@ -21,6 +21,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
             crossorigin="anonymous"></script>
 </head>
+<script type="text/javascript">
+
+</script>
 <!--Main Navigation-->
 <header>
     <!-- Jumbotron -->
@@ -108,16 +111,16 @@
                 </div>
                 <div class="col-lg-6 col-md-12 col-12">
                     <div class="product-info">
-                        <form method="post" asp-controller="AdminDashboard" asp-action="UpdateComputer">
+                        <form method="post" asp-controller="Order" asp-action="CheckoutAction">
                             <h2 class="title">@ViewBag.computer.cName</h2>
-                            <h3 class="price">Rs @decimal.Round(@ViewBag.computer.normalPrice, 2, MidpointRounding.AwayFromZero)</h3>
+                            <h3 name="price" class="price">Rs @decimal.Round(@ViewBag.computer.normalPrice, 2, MidpointRounding.AwayFromZero)</h3>
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <div class="form-group">
                                         @foreach (var variation in @ViewBag.variationList)
                                         {
                                             <label for="color">@variation.comvName</label>
-                                            <select class="form-control" id="color">
+                                            <select class="form-control" name="variation">
                                                 @foreach (var option in @variation.variationOptions)
                                                 {
                                                     <option>@option.comvopName</option>

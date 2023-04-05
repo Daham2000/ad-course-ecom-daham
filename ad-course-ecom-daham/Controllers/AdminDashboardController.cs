@@ -1,15 +1,11 @@
 ﻿using ad_course_ecom_daham.Business.Interfaces;
-using ad_course_ecom_daham.Business.Services;
-using ad_course_ecom_daham.Migrations;
 using ad_course_ecom_daham.Models;
 using ad_course_ecom_daham.Models.CustomerModels;
 using ad_course_ecom_daham.Models.Product;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
 using ad_course_ecom_daham.Models.Chart;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace ad_course_ecom_daham.Controllers
@@ -385,6 +381,7 @@ namespace ad_course_ecom_daham.Controllers
 
             model.cName = computer.cName;
             model.qty = computer.qty;
+            model.cImage = computer.cImage;
             model.normalPrice = computer.normalPrice;
 
             try

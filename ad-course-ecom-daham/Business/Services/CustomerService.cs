@@ -46,6 +46,11 @@ namespace ad_course_ecom_daham.Business.Services
             return _context.Customer.Where((c) => c.cId == id).FirstOrDefault();
         }
 
+        public Customer GetCustomerByName(string? cEmail, string cPassword)
+        {
+            return _context.Customer.Where((c) => c.cEmail == cEmail).Where((c) => c.cPassword == cPassword).FirstOrDefault();
+        }
+
         /*
             Return all customers as a List. Customer is the model used for the List. 
         */

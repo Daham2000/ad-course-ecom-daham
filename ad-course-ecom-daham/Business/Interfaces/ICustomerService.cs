@@ -8,6 +8,7 @@ namespace ad_course_ecom_daham.Business.Interfaces
         public void AddCustomer(Customer model);
         public List<Customer> GetCustomers();
         public Customer GetCustomerById(Guid? id);
+        public Customer GetCustomerByName(string? cEmail, string cPassword);
         public void EditCustomer(Customer model);
         public void DeleteCustomer(Guid? id);
     }
