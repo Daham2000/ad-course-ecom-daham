@@ -381,6 +381,7 @@ namespace ad_course_ecom_daham.Controllers
 
             model.cName = computer.cName;
             model.qty = computer.qty;
+            model.cImage = computer.cImage;
             model.normalPrice = computer.normalPrice;
 
             try
